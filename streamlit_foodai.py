@@ -141,6 +141,18 @@ def vegan(name):
     st.text("\n")
     common()
 
+def supper(name):
+    st.info(f'{name}님~ 밤늦은 시각 출출하신가요~')
+    supper_cat = st.selectbox(f'카테고리 선택',
+                        ("", "건강한 버전", "낮은 칼로리 버전", "단백질 높은 버전",
+                         "매운 버전", "자극적인 버전", "튀긴 버전"))
+    st.write(supper_cat, "을(를) 선택하셨습니다.")
+
+    st.text("\n")
+    st.text("\n")
+    st.text("\n")
+    common()
+
 def random(name):
     favor = st.selectbox(f'음식 카테고리 선택',
                             ("", "한식", "중식", "양식", "일식", "매운거", "안매운거"))
@@ -202,7 +214,8 @@ def worldcup(name):
 
 page = st.radio(
      "★원하는 서비스 선택★",
-    ('건강을 챙기는 으르신', '먹고죽자 치팅데이', '비건에의한 비건을위한', '생각없는 당신을위한 랜덤', '선택장애를 위한 월드컵'))
+    ('건강을 챙기는 으르신', '먹고죽자 치팅데이', '비건에의한 비건을위한', '밤에 출출한 야식러',
+     '생각없는 당신을위한 랜덤', '선택장애를 위한 월드컵'))
 st.text("\n")
 st.text("\n")
 st.text("\n")
@@ -212,6 +225,8 @@ elif page == '먹고죽자 치팅데이':
     gocal(f'{name}')
 elif page == '비건에의한 비건을위한':
     vegan(f'{name}')
+elif page == '밤에 출출한 야식러':
+    supper(f'{name}')
 elif page == '생각없는 당신을위한 랜덤':
     random(f'{name}')
 else:
