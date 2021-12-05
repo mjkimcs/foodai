@@ -72,7 +72,7 @@ def common():
     st.text("\n")
     st.text("\n")
 
-    if st.button('추천음식 보러가기'):
+    if st.button('추천음식 보러가기(결과화면 수정필요)'):
         img = Image.open("./Img_test_omelet.jpg")
         st.image(img, width=300, caption="계란말이(5m, 하) 레시피 보러가기")
         img = Image.open("./Img_test_chicken.jpg")
