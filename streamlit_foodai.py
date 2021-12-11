@@ -2,6 +2,9 @@ import streamlit as st
 from PIL import Image
 import pandas as pd
 import numpy as np
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras.models import load_model
 
 # https://docs.streamlit.io/
 # streamlit run streamlit_foodai.py
@@ -144,8 +147,8 @@ def vegan(name):
 def supper(name):
     st.info(f'{name}님~ 밤늦은 시각 출출하신가요~')
     supper_cat = st.selectbox(f'카테고리 선택',
-                        ("", "건강한 버전", "낮은 칼로리 버전", "단백질 높은 버전",
-                         "매운 버전", "자극적인 버전", "튀긴 버전"))
+                        ("", "낮은 칼로리 버전", "단백질 높은 버전", "튀긴 버전",
+                         "건강한 버전", "매운 버전", "자극적인 버전"))
     st.write(supper_cat, "을(를) 선택하셨습니다.")
 
     st.text("\n")
@@ -192,7 +195,59 @@ def random(name):
         st.image(img, width=300, caption="치킨(30m, 상) 레시피 보러가기")
 
 def worldcup(name):
-    st.subheader('푸드월드컵')
+    st.info(f'{name}님의 추억이 담긴 레시피를 찾아드려요~😇')
+    st.text("\n")
+    st.text("\n")
+    st.text("\n")
+
+    class_names = [
+        '후라이드치킨', '간장게장', '갈비구이', '갈비찜', '갈비탕', '갈치구이', '갈치조림', '감자전', '감자조림', '감자채볶음', '감자탕', '갓김치', '건새우볶음', '경단',
+        '계란국', '계란말이', '계란찜', '계란후라이', '고등어구이', '고등어조림', '고사리나물', '고추장진미채볶음', '고추튀김', '곱창구이', '곱창전골', '과메기', '김밥',
+        '김치볶음밥', '김치전', '김치찌개', '김치찜', '깍두기', '깻잎장아찌', '꼬막찜', '꽁치조림', '꽈리고추무침', '꿀떡', '나박김치', '누룽지', '닭갈비', '닭계장',
+        '닭볶음탕', '더덕구이', '도라지무침', '도토리묵', '동그랑땡', '동태찌개', '된장찌개', '두부김치', '두부조림', '땅콩조림', '떡갈비', '떡꼬치', '떡만두국', '떡볶이',
+        '라면', '라볶이', '막국수', '만두', '매운탕', '멍게', '메추리알장조림', '멸치볶음', '무국', '무생채', '물냉면', '물회', '미역국', '미역줄기볶음', '불고기',
+        '전복죽'
+    ]
+
+    uploaded_file = st.file_uploader("파일찾기")
+    if uploaded_file:
+        st.image(uploaded_file, width=400) #, caption="입력 데이터"
+        if st.button("이미지 분석하기"):
+            img = keras.preprocessing.image.load_img(
+                './Img_test_omelet.jpg', target_size=(180, 180)
+            )
+            img_array = keras.preprocessing.image.img_to_array(img)
+            img_array = tf.expand_dims(img_array, 0)  # Create a batch
+            model = keras.models.load_model('./kf_model.h5')
+            predictions = model.predict(img_array)
+            score = tf.nn.softmax(predictions[0])
+
+            st.text(
+                "{}(정확도 {:.2f}%)"
+                    .format(class_names[np.argmax(score)], 100 * np.max(score))
+                 )
+    # if uploaded_file is not None:
+    #     # To read file as bytes:
+    #     bytes_data = uploaded_file.getvalue()
+    #     st.write(bytes_data)
+    #
+    #     # To convert to a string based IO:
+    #     stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
+    #     st.write(stringio)
+    #
+    #     # To read file as string:
+    #     string_data = stringio.read()
+    #     st.write(string_data)
+    #
+    #     # Can be used wherever a "file-like" object is accepted:
+    #     dataframe = pd.read_csv(uploaded_file)
+    #     st.write(dataframe)
+
+    st.text("\n")
+    st.text("\n")
+    st.text("\n")
+    st.text("\n")
+    st.text("\n")
     message = st.text_area("불편사항을 알려주세요.")
     if st.button("Click"):
         if message.title():
@@ -214,8 +269,8 @@ def worldcup(name):
 
 page = st.radio(
      "★원하는 서비스 선택★",
-    ('건강을 챙기는 으르신', '먹고죽자 치팅데이', '비건에의한 비건을위한', '밤에 출출한 야식러',
-     '생각없는 당신을위한 랜덤', '선택장애를 위한 월드컵'))
+    ('건강을 챙기는 으르신', '먹고죽자 치팅데이', '밤에 출출한 야식러',
+     '생각없는 당신을위한 랜덤', '레시피를 찾아드려요(추억소환)')) #, '비건에의한 비건을위한'
 st.text("\n")
 st.text("\n")
 st.text("\n")
@@ -223,8 +278,8 @@ if page == '건강을 챙기는 으르신':
     tandanji(f'{name}')
 elif page == '먹고죽자 치팅데이':
     gocal(f'{name}')
-elif page == '비건에의한 비건을위한':
-    vegan(f'{name}')
+# elif page == '비건에의한 비건을위한':
+#     vegan(f'{name}')
 elif page == '밤에 출출한 야식러':
     supper(f'{name}')
 elif page == '생각없는 당신을위한 랜덤':
