@@ -126,6 +126,11 @@ def memory(name):
     st.text("\n")
     st.text("\n")
     st.text("\n")
+
+    if st.button('추천 레시피 보러가기'):
+        st.text('결과화면(수정필요)')
+    st.text("\n")
+    st.text("\n")
     st.text("\n")
     st.text("\n")
 
