@@ -7,6 +7,9 @@ import numpy as np
 # from tensorflow.keras.models import load_model
 import os
 
+import sys
+from fastai.vision import load_learner, open_image
+
 # https://docs.streamlit.io/
 # streamlit run streamlit_foodai_final.py
 
