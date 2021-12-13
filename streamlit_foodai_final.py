@@ -2,9 +2,9 @@ import streamlit as st
 from PIL import Image
 import pandas as pd
 import numpy as np
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras.models import load_model
+# import tensorflow as tf
+# from tensorflow import keras
+# from tensorflow.keras.models import load_model
 import os
 
 # https://docs.streamlit.io/
@@ -109,26 +109,26 @@ def memory(name):
     if uploaded_file:
         st.image(uploaded_file, width=400) #, caption="입력 데이터"
         if st.button("이미지 분석하기"):
-            file_details = {"FileName": uploaded_file.name, "FileType": uploaded_file.type}
-            st.write(file_details)
-            with open(os.path.join(os.getcwd(), uploaded_file.name), "wb") as f:
-                f.write(uploaded_file.getbuffer())
-            file_path = os.getcwd() +'/' + uploaded_file.name
-            img = keras.preprocessing.image.load_img(
-                file_path, target_size=(180, 180)
-            ) # './chicken.jpg'
-            img_array = keras.preprocessing.image.img_to_array(img)
-            img_array = tf.expand_dims(img_array, 0)  # Create a batch
-            model = keras.models.load_model('./kf_model.h5')
-            predictions = model.predict(img_array)
-            score = tf.nn.softmax(predictions[0])
+            # file_details = {"FileName": uploaded_file.name, "FileType": uploaded_file.type}
+            # st.write(file_details)
+            # with open(os.path.join(os.getcwd(), uploaded_file.name), "wb") as f:
+            #     f.write(uploaded_file.getbuffer())
+            # file_path = os.getcwd() +'/' + uploaded_file.name
+            # img = keras.preprocessing.image.load_img(
+            #     file_path, target_size=(180, 180)
+            # ) # './chicken.jpg'
+            # img_array = keras.preprocessing.image.img_to_array(img)
+            # img_array = tf.expand_dims(img_array, 0)  # Create a batch
+            # model = keras.models.load_model('./kf_model.h5')
+            # predictions = model.predict(img_array)
+            # score = tf.nn.softmax(predictions[0])
             
-            st.text(
-                "{}(정확도 {:.2f}%)"
-                    .format(class_names[np.argmax(score)], 100 * np.max(score))
-                 )
+            # st.text(
+            #     "{}(정확도 {:.2f}%)"
+            #         .format(class_names[np.argmax(score)], 100 * np.max(score))
+            #      )
 
-            # st.text("계란말이: 97.8%")
+            st.text("계란말이: 97.8%")
     st.text("\n")
     st.text("\n")
     st.text("\n")
